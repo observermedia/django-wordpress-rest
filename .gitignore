@@ -1,0 +1,12 @@
+build
+dist
+.coverage
+.tox
+MANIFEST
+*.pyc
+*.egg-info
+*.egg
+.eggs/
+docs/_build/
+htmlcov/
+.idea/
