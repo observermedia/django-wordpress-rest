@@ -133,14 +133,14 @@ class Post(WordPressIDs, DateTracking, models.Model):
         """
         Convert to text and make sure it's a 4 digit string, pre-filling with 0's
         """
-        return unicode(self.post_date.year).zfill(4)
+        return str(self.post_date.year).zfill(4)
 
     @property
     def post_month(self):
         """
         Convert to text and make sure it's a 2 digit string, pre-filling with 0's
         """
-        return unicode(self.post_date.month).zfill(2)
+        return str(self.post_date.month).zfill(2)
 
     def get_absolute_url(self):
         if self.post_year and self.post_month and self.slug:
