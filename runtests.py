@@ -12,8 +12,7 @@ DEFAULT_SETTINGS = dict(
         "django.contrib.auth",
         "django.contrib.contenttypes",
         "django.contrib.sites",
-        "wordpress",
-        "wordpress.tests"
+        "wordpress"
     ],
     MIDDLEWARE_CLASSES=[],
     DATABASES={
@@ -24,7 +23,7 @@ DEFAULT_SETTINGS = dict(
     },
     SITE_ID=1,
     ROOT_URLCONF="wordpress.tests.urls",
-    SECRET_KEY="notasecret",
+    SECRET_KEY="notasecret"
 )
 
 

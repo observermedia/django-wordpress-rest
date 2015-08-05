@@ -25,6 +25,7 @@ setup(
     },
     test_suite="runtests.runtests",
     tests_require=[
+        "mock>=1.3.0",
     ],
     classifiers=[
         "Development Status :: 4 - Beta",

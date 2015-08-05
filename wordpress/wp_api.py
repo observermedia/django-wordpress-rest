@@ -15,6 +15,7 @@ Functions that use the WordPress.com REST API to sync remote content
 
 logger = logging.getLogger(__name__)
 
+api_base_url = "https://public-api.wordpress.com/rest/v1.1/"
 
 # keep track of whether we've warned about public API access
 public_api_warnings = True
@@ -29,14 +30,14 @@ def get(path, params=None):
     """
     global public_api_warnings
 
-    api_url = "https://public-api.wordpress.com/rest/v1.1/" + path
+    api_url = api_base_url + path
 
     headers = None
-    if hasattr(settings, "WP_API_AUTH_TOKEN"):
+    try:
         headers = {
             "Authorization": 'Bearer {}'.format(settings.WP_API_AUTH_TOKEN)
         }
-    else:
+    except AttributeError:
         if public_api_warnings:
             logger.warning("WP_API_AUTH_TOKEN not found in settings. Only public APIs are available.")
             public_api_warnings = False
