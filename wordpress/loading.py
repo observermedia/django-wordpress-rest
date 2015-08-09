@@ -5,6 +5,7 @@ from datetime import datetime, timedelta
 
 from django.conf import settings
 import requests
+import six
 
 from wordpress.models import Tag, Category, Author, Post, Media
 from wordpress.utils import int_or_None
@@ -643,7 +644,7 @@ class WPAPILoader(object):
         :return: None
         """
         post_categories[api_post["ID"]] = []
-        for api_category in api_post["categories"].itervalues():
+        for api_category in six.itervalues(api_post["categories"]):
             category = self.process_post_category(bulk_mode, api_category)
             if category:
                 post_categories[api_post["ID"]].append(category)
@@ -683,7 +684,7 @@ class WPAPILoader(object):
         :return: None
         """
         post_tags[api_post["ID"]] = []
-        for api_tag in api_post["tags"].itervalues():
+        for api_tag in six.itervalues(api_post["tags"]):
             tag = self.process_post_tag(bulk_mode, api_tag)
             if tag:
                 post_tags[api_post["ID"]].append(tag)
@@ -723,7 +724,7 @@ class WPAPILoader(object):
         """
         post_media_attachments[api_post["ID"]] = []
 
-        for api_attachment in api_post["attachments"].itervalues():
+        for api_attachment in six.itervalues(api_post["attachments"]):
             attachment = self.process_post_media_attachment(bulk_mode, api_attachment)
             if attachment:
                 post_media_attachments[api_post["ID"]].append(attachment)
@@ -885,13 +886,13 @@ class WPAPILoader(object):
         Post.objects.bulk_create(posts)
 
         # attach many-to-ones
-        for post_wp_id, categories in post_categories.iteritems():
+        for post_wp_id, categories in six.iteritems(post_categories):
             Post.objects.get(site_id=self.site_id, wp_id=post_wp_id).categories.add(*categories)
 
-        for post_id, tags in post_tags.iteritems():
+        for post_id, tags in six.iteritems(post_tags):
             Post.objects.get(site_id=self.site_id, wp_id=post_id).tags.add(*tags)
 
-        for post_id, attachments in post_media_attachments.iteritems():
+        for post_id, attachments in six.iteritems(post_media_attachments):
             Post.objects.get(site_id=self.site_id, wp_id=post_id).attachments.add(*attachments)
 
     def sync_deleted_attachments(self, api_post):
