@@ -574,9 +574,9 @@ class WPAPILoader(object):
             author = self.process_post_author(bulk_mode, api_post["author"])
 
         # process many-to-many fields
-        self.process_post_categories(self, bulk_mode, api_post, post_categories)
-        self.process_post_tags(self, bulk_mode, api_post, post_tags)
-        self.process_post_media_attachments(self, bulk_mode, api_post, post_media_attachments)
+        self.process_post_categories(bulk_mode, api_post, post_categories)
+        self.process_post_tags(bulk_mode, api_post, post_tags)
+        self.process_post_media_attachments(bulk_mode, api_post, post_media_attachments)
 
         # if this post exists, update it; else create it
         existing_post = Post.objects.filter(site_id=self.site_id, wp_id=api_post["ID"]).first()
@@ -644,7 +644,7 @@ class WPAPILoader(object):
         """
         post_categories[api_post["ID"]] = []
         for api_category in api_post["categories"].itervalues():
-            category = self.process_post_category(self.ref_data_map, bulk_mode, api_category)
+            category = self.process_post_category(bulk_mode, api_category)
             if category:
                 post_categories[api_post["ID"]].append(category)
 
@@ -684,7 +684,7 @@ class WPAPILoader(object):
         """
         post_tags[api_post["ID"]] = []
         for api_tag in api_post["tags"].itervalues():
-            tag = self.process_post_tag(self.ref_data_map, bulk_mode, api_tag)
+            tag = self.process_post_tag(bulk_mode, api_tag)
             if tag:
                 post_tags[api_post["ID"]].append(tag)
 

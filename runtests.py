@@ -23,7 +23,8 @@ DEFAULT_SETTINGS = dict(
     },
     SITE_ID=1,
     ROOT_URLCONF="wordpress.tests.urls",
-    SECRET_KEY="notasecret"
+    SECRET_KEY="notasecret",
+    USE_TZ=True
 )
 
 

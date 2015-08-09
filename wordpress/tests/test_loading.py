@@ -1,10 +1,15 @@
 from __future__ import unicode_literals
 
 import logging
-from mock import patch, call, DEFAULT
+import json
+import os
+
+from mock import patch, call, DEFAULT, Mock
 from django.test import TestCase
+from requests import Response
 
 from .. import loading
+from ..models import Post
 
 
 class WPAPIGetTest(TestCase):
@@ -48,7 +53,7 @@ class WPAPIGetTest(TestCase):
             self.assertFalse(self.loader.first_get)
 
 
-class WPAPILoadTest(TestCase):
+class WPAPILoadSiteTest(TestCase):
 
     def setUp(self):
         logging.getLogger('wordpress.loading').addHandler(logging.NullHandler())
@@ -115,3 +120,38 @@ class WPAPILoadTest(TestCase):
         # expected internal calls
         get_ref_data_map.assert_called_once_with()
         load_posts.assert_called_once_with(post_type=type)
+
+
+class WPAPILoadPostTest(TestCase):
+
+    def setUp(self):
+        logging.getLogger('wordpress.loading').addHandler(logging.NullHandler())
+        self.test_site_id = -1
+        self.loader = loading.WPAPILoader(site_id=self.test_site_id)
+
+    @patch("requests.get")
+    def test_load_post(self, RequestsGetMock):
+
+        # set up a mock response with stubbed json to simulate the API
+        def read_post_json():
+            with open(os.path.join(os.path.dirname(__file__), "data", "post.json")) as post_json_file:
+                return json.load(post_json_file)
+
+        mock_response = Mock(Response)
+        mock_response.ok = True
+        mock_response.text = "some text"
+        mock_response.json = read_post_json
+
+        RequestsGetMock.return_value = mock_response
+
+        # call we're testing
+        post = self.loader.load_post(1)
+
+        # some validations
+        self.assertIsInstance(post, Post)
+        self.assertEqual(post.wp_id, 1)
+        self.assertEqual(post.title, "This is a Test Post")
+        self.assertEqual(post.author.name, "testauthor")
+        self.assertEqual(post.categories.first().name, "News")
+        self.assertEqual(post.tags.first().name, "Testing")
+        self.assertEqual(post.attachments.first().url, "https://test.local/testpost.jpg")
