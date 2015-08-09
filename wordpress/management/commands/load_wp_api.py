@@ -38,7 +38,7 @@ class Command(BaseCommand):
     )
 
     def handle(self, *args, **options):
-        from wordpress import wp_api
+        from wordpress import loading
 
         site_id = args[0]
 
@@ -52,8 +52,8 @@ class Command(BaseCommand):
 
         type = options.get("type")
 
-        wp_api.load_wp_api(site_id,
-                           purge_first=purge_first,
-                           full=full,
-                           modified_after=modified_after,
-                           type=type)
+        loader = loading.WPAPILoader(site_id=site_id)
+        loader.load_site(purge_first=purge_first,
+                         full=full,
+                         modified_after=modified_after,
+                         type=type)
