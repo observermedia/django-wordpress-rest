@@ -2,7 +2,7 @@ django-wordpress-rest
 =====================
 
 
-.. image:: https://img.shields.io/badge/django--wordpress--rest-0.1-brightgreen.svg
+.. image:: https://img.shields.io/badge/django--wordpress--rest-0.1.1-brightgreen.svg
     :target:  https://pypi.python.org/pypi/django-wordpress-rest/
 
 .. image:: https://img.shields.io/badge/license-MIT-blue.svg
