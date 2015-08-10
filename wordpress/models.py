@@ -128,29 +128,5 @@ class Post(WordPressIDs, DateTracking, models.Model):
     categories = models.ManyToManyField("Category", blank=True)
     metadata = JSONField(load_kwargs={'object_pairs_hook': collections.OrderedDict})
 
-    @property
-    def post_year(self):
-        """
-        Convert to text and make sure it's a 4 digit string, pre-filling with 0's
-        """
-        return str(self.post_date.year).zfill(4)
-
-    @property
-    def post_month(self):
-        """
-        Convert to text and make sure it's a 2 digit string, pre-filling with 0's
-        """
-        return str(self.post_date.month).zfill(2)
-
-    def get_absolute_url(self):
-        if self.post_year and self.post_month and self.slug:
-            return reverse('story', kwargs={"year": self.post_year, "month": self.post_month, "slug": self.slug})
-        else:
-            return reverse('story_from_slug_or_post_id', kwargs={"slug_or_post_id": self.pk})
-
-    @property
-    def comma_delimited_tags(self):
-        return ",".join(t.name for t in self.tags.all())
-
     def __unicode__(self):
         return "{}: {}".format(self.pk, self.slug)
