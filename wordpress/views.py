@@ -4,6 +4,7 @@ import logging
 import time
 
 from django.views.decorators.http import require_POST
+from django.views.decorators.csrf import csrf_exempt
 from django.http.response import Http404, JsonResponse
 import after_response
 
@@ -14,6 +15,7 @@ logger = logging.getLogger(__name__)
 
 
 @require_POST
+@csrf_exempt
 def load_post_webhook(request):
     """
     Webhook to insert/update a WordPress.com post on the local Django site.
