@@ -25,7 +25,7 @@ Install the module:
 
     pip install django-wordpress-rest
 
-Add `wordpress` to your `INSTALLED_APPS` setting:
+Add `"wordpress"` to your `INSTALLED_APPS` setting:
 
     INSTALLED_APPS = (
         # ...
@@ -70,7 +70,7 @@ If you'd like to use the webhook to sync a post immediately after it's updated, 
     ]
 
 
-Add `after_response` to your `INSTALLED_APPS` setting (this allows asynchronous processing):
+Add `"after_response"` to your `INSTALLED_APPS` setting (this allows asynchronous processing):
 
     INSTALLED_APPS = (
         # ...
