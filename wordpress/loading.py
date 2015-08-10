@@ -527,7 +527,6 @@ class WPAPILoader(object):
             for api_post in api_posts:
                 self.load_wp_post(api_post,
                                   bulk_mode=True,
-                                  ref_data_map=self.ref_data_map,
                                   post_categories=post_categories,
                                   post_tags=post_tags,
                                   post_media_attachments=post_media_attachments,
