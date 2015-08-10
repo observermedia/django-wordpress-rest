@@ -14,9 +14,8 @@ A separate copy of the content data is stored on the Django side, which allows f
 If you'd like to synchronize private content, create an OAuth2 access token using the instructions provided by WordPress:
 https://developer.wordpress.com/docs/oauth2/
 
-Expose this token in your Django settings file. Use an environment variable to keep things secure:
+Add this token to your Django `settings.py` file. Use an environment variable to keep things secure:
 
-    settings.py
     WP_API_AUTH_TOKEN = os.getenv("WP_API_AUTH_TOKEN")
 
 
