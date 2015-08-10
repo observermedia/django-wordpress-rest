@@ -31,7 +31,7 @@ Expose this token in your Django settings file. Use an environment variable to k
 ::
 
     settings.py
-    WP_API_TMP_AUTH_TOKEN = os.getenv("WP_API_AUTH_TOKEN")
+    WP_API_AUTH_TOKEN = os.getenv("WP_API_AUTH_TOKEN")
 
 
 
