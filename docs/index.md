@@ -42,9 +42,7 @@ Purge local content before loading -- careful!
 
 ## Webhook
 
-If you'd like to use the webhook to sync a post immediately after it's updated, integrate the `urls` into your project, like so:
-
-    urls.py
+If you'd like to use the webhook to sync a post immediately after it's updated, include the `urls` into your project's `urls.py`, like so:
 
     from django.conf.urls import include
 

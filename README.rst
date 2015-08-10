@@ -64,11 +64,9 @@ Sync WordPress content using the management command. The ``<site_id>`` can be fo
     $ python manage.py load_wp_api <site_id>
 
 
-If you'd like to use the webhook to sync a post immediately after it's updated, integrate the ``urls`` into your project, like so:
+If you'd like to use the webhook to sync a post immediately after it's updated, include the ``urls`` into your project's ``urls.py``, like so:
 
 ::
-
-    urls.py
 
     from django.conf.urls import include
 
