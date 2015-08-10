@@ -1,6 +1,25 @@
 # django-wordpress-rest
 
 
+
+## Summary
+
+Django-wordpress-rest is a Django application that syncs content from a WordPress.com site to a Django site.
+This is done using the WordPress.com REST API: https://developer.wordpress.com/docs/api/.
+A separate copy of the content data is stored on the Django side, which allows for loose coupling and extensability.
+
+
+## Authentication
+
+If you'd like to synchronize private content, create an OAuth2 access token using the instructions provided by WordPress:
+https://developer.wordpress.com/docs/oauth2/
+
+Expose this token in your Django settings file. Use an environment variable to keep things secure:
+
+    settings.py
+    WP_API_TMP_AUTH_TOKEN = os.getenv("WP_API_AUTH_TOKEN")
+
+
 ## Quickstart
 
 Install the module:
@@ -14,6 +33,7 @@ Add `wordpress` to your `INSTALLED_APPS` setting:
         "wordpress",
         # ...
     )
+
 
 ## Load Options
 
