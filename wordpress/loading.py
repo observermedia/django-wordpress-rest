@@ -27,11 +27,18 @@ class WPAPILoader(object):
                              If not given, we use the standard URL: https://public-api.wordpress.com/rest/v1.1/
         :return: None
         """
-        try:
-            self.site_id = int(site_id) or int(settings.WP_API_SITE_ID)
-        except:
-            logger.exception("Must provide int site_id as kwarg or in settings.")
-            return
+        if site_id is not None:
+            try:
+                self.site_id = int(site_id)
+            except ValueError:
+                logger.exception("Must provide site_id as an integer.")
+                raise
+        else:
+            try:
+                self.site_id = int(settings.WP_API_SITE_ID)
+            except:
+                logger.exception("Must provide int site_id as an integer kwarg or in settings.")
+                raise
 
         self.api_base_url = api_base_url or "https://public-api.wordpress.com/rest/v1.1/"
 
