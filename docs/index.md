@@ -33,6 +33,10 @@ Add `"wordpress"` to your `INSTALLED_APPS` setting:
         # ...
     )
 
+Create the database tables that will persist the sync'd WordPress content:
+
+    $ python manage.py migrate
+
 
 ## Load Options
 

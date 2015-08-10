@@ -54,7 +54,13 @@ Add ``"wordpress"`` to your ``INSTALLED_APPS`` setting:
         # ...
     )
 
+
+Create the database tables that will persist the sync'd WordPress content:
+
 ::
+
+    $ python manage.py migrate
+
 
 Sync WordPress content using the management command. The ``<site_id>`` can be found using the `/me/sites WordPress API call <https://developer.wordpress.com/docs/api/1.1/get/me/sites/>`_. This is useful for periodically updating the content with cron.
 
