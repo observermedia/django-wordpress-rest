@@ -83,6 +83,12 @@ Add `"after_response"` to your `INSTALLED_APPS` setting (this allows asynchronou
         # ...
     )
 
+
+The webhook looks for your `<site_id>` in Django settings. So add this your `settings.py`, and use an environment variable to keep things secure:
+
+    WP_API_SITE_ID = os.getenv("WP_API_SITE_ID")
+
+
 Then from your WordPress.com site, submit a POST request with an `ID` data element in the body to trigger a sync of a single post. Note this should be the WordPress Post ID, not the Djano one!
 
     $ curl -X POST --data "ID=123456" http://mydjangosite.com/wordpress/load_post
