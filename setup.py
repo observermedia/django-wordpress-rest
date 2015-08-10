@@ -11,14 +11,15 @@ def read(*parts):
 
 
 setup(
-    author="",
-    author_email="",
-    description="",
+    author="Observer Media",
+    author_email="jsternberg@observer.com",
+    description="Sync a WordPress site to Django via the WordPress.com REST API",
     name="django-wordpress-rest",
     long_description=read("README.rst"),
     version="0.1",
     url="https://github.com/observermedia/django-wordpress-rest",
     license="MIT",
+    keywords='django wordpress wordpress.com REST API',
     packages=find_packages(),
     package_data={
         "django-wordpress-rest": []
