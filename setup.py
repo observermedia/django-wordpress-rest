@@ -17,7 +17,7 @@ setup(
     name="django-wordpress-rest",
     long_description=read("README.rst"),
     version="0.1",
-    url="http://django-wordpress-rest.rtfd.org/",
+    url="https://github.com/observermedia/django-wordpress-rest",
     license="MIT",
     packages=find_packages(),
     package_data={
@@ -41,9 +41,11 @@ setup(
     ],
     install_requires=[
         "Django>=1.7.9",
-        "requests>=2.7.0",
+        "django-after-response==0.2.1",
         "jsonfield>=1.0.3",
-        "python-dateutil>=2.4.2"
+        "python-dateutil>=2.4.2",
+        "requests>=2.7.0",
+        "six>=1.9.0"
     ],
     zip_safe=False
 )
