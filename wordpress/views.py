@@ -18,7 +18,7 @@ def load_post_webhook(request):
     """
     Webhook to insert/update a WordPress.com post on the local Django site.
     Call this after making changes to the post in WP Admin.
-    The post is processed asynchronously so that a response can be returned to WordPress immediately.
+    The post is processed asynchronously so that a response can be returned to WordPress.com immediately.
 
     :param request: Should contain the WordPress post ID, named "ID", in POST form data
     :return: JsonResponse indicated the refresh is in progress.

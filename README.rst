@@ -57,11 +57,30 @@ Add `wordpress` to your `INSTALLED_APPS` setting:
 
 ::
 
-Sync WordPress content using the management command. The ``<site_id>`` can be found using the `/me/sites API call <https://developer.wordpress.com/docs/api/1.1/get/me/sites/>`_.
+Sync WordPress content using the management command. The ``<site_id>`` can be found using the `/me/sites WordPress API call <https://developer.wordpress.com/docs/api/1.1/get/me/sites/>`_. This is useful for periodically updating the content with cron.
 
 ::
 
     $ python manage.py load_wp_api <site_id>
+
+
+If you'd like to use the webhook to sync a post immediately after it's updated, integrate the ``urls`` into your project, like so:
+
+::
+
+    urls.py
+
+    from django.conf.urls import include
+
+    urlpatterns = [
+        url(r'^wordpress/', include('wordpress.urls'))
+    ]
+
+Then sumbit a POST request with an ``ID`` data element in the body to trigger a sync of a single post. Note this should be the WordPress Post ID, not the Djano one!
+
+::
+
+    $ curl -X POST --data "ID=123456" http://mydjangosite.com/wordpress/load_post
 
 
 Load Options
