@@ -69,6 +69,16 @@ If you'd like to use the webhook to sync a post immediately after it's updated, 
         url(r'^wordpress/', include('wordpress.urls'))
     ]
 
+
+Add `after_response` to your `INSTALLED_APPS` setting (this allows asynchronous processing):
+
+    INSTALLED_APPS = (
+        # ...
+        "after_response",
+        "wordpress",
+        # ...
+    )
+
 Then from your WordPress.com site, submit a POST request with an `ID` data element in the body to trigger a sync of a single post. Note this should be the WordPress Post ID, not the Djano one!
 
     $ curl -X POST --data "ID=123456" http://mydjangosite.com/wordpress/load_post

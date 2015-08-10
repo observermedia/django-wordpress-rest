@@ -44,7 +44,7 @@ Install the module:
     pip install django-wordpress-rest
 
 
-Add `wordpress` to your `INSTALLED_APPS` setting:
+Add ``wordpress`` to your ``INSTALLED_APPS`` setting:
 
 ::
 
@@ -122,6 +122,19 @@ If you'd like to use the webhook to sync a post immediately after it's updated, 
     urlpatterns = [
         url(r'^wordpress/', include('wordpress.urls'))
     ]
+
+
+Add ``after_response`` to your ``INSTALLED_APPS`` setting (this allows asynchronous processing):
+
+::
+
+    INSTALLED_APPS = (
+        # ...
+        "after_response",
+        "wordpress",
+        # ...
+    )
+
 
 Then from your WordPress.com site, submit a POST request with an ``ID`` data element in the body to trigger a sync of a single post. Note this should be the WordPress Post ID, not the Djano one!
 
