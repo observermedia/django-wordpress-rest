@@ -8,8 +8,8 @@ django-wordpress-rest
 .. image:: https://img.shields.io/badge/license-MIT-blue.svg
     :target:  https://pypi.python.org/pypi/django-wordpress-rest/
 
-.. image:: https://circleci.com/gh/observermedia/django-wordpress-rest.svg?style=shield&circle-token=6026ec67db909e66bac5ee1f718b5c8029449b59
-    :target:  https://pypi.python.org/pypi/django-wordpress-rest/
+.. image:: https://circleci.com/gh/observermedia/django-wordpress-rest/tree/master.svg?style=svg&circle-token=d6ff8ea2fbb65de69536e1bacf6ce27fb95a533e
+    :target: https://circleci.com/gh/observermedia/django-wordpress-rest/tree/master
 
 
 Welcome to the documentation for django-wordpress-rest!
