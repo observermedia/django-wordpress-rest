@@ -20,14 +20,14 @@ class WPAPIInitTest(TestCase):
     def test_init(self):
         # bad inputs
         with self.assertRaises(ValueError):
-            loader = loading.WPAPILoader(site_id="bad")
+            loading.WPAPILoader(site_id="bad")
         with self.assertRaises(AttributeError):
-            loader = loading.WPAPILoader()
+            loading.WPAPILoader()
 
         # good inputs
-        loader = loading.WPAPILoader(site_id=-1)
+        loading.WPAPILoader(site_id=-1)
         with self.settings(WP_API_SITE_ID=-1):
-            loader = loading.WPAPILoader()
+            loading.WPAPILoader()
 
 
 class WPAPIGetTest(TestCase):
