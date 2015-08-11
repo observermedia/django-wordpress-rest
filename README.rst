@@ -8,6 +8,9 @@ django-wordpress-rest
 .. image:: https://img.shields.io/badge/license-MIT-blue.svg
     :target:  https://pypi.python.org/pypi/django-wordpress-rest/
 
+.. image:: https://circleci.com/gh/observermedia/django-wordpress-rest.svg?style=shield&circle-token=6026ec67db909e66bac5ee1f718b5c8029449b59
+    :target:  https://pypi.python.org/pypi/django-wordpress-rest/
+
 
 Welcome to the documentation for django-wordpress-rest!
 
@@ -164,3 +167,4 @@ Running the Tests
 
     $ pip install detox
     $ detox
+
