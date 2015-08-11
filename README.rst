@@ -8,7 +8,7 @@ django-wordpress-rest
 .. image:: https://img.shields.io/badge/license-MIT-blue.svg
     :target:  https://pypi.python.org/pypi/django-wordpress-rest/
 
-.. image:: https://circleci.com/gh/observermedia/django-wordpress-rest/tree/master.svg?style=svg&circle-token=d6ff8ea2fbb65de69536e1bacf6ce27fb95a533e
+.. image:: https://circleci.com/gh/observermedia/django-wordpress-rest/tree/master.svg?style=shield&circle-token=d6ff8ea2fbb65de69536e1bacf6ce27fb95a533e
     :target: https://circleci.com/gh/observermedia/django-wordpress-rest/tree/master
 
 
