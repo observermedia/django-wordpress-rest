@@ -16,7 +16,7 @@ setup(
     description="Sync a WordPress site to Django via the WordPress.com REST API",
     name="django-wordpress-rest",
     long_description=read("README.rst"),
-    version="0.1.1",
+    version="0.1.2",
     url="https://github.com/observermedia/django-wordpress-rest",
     license="MIT",
     keywords='django wordpress wordpress.com REST API',
