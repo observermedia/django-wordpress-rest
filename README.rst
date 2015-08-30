@@ -11,16 +11,23 @@ django-wordpress-rest
 .. image:: https://circleci.com/gh/observermedia/django-wordpress-rest/tree/master.svg?style=shield&circle-token=d6ff8ea2fbb65de69536e1bacf6ce27fb95a533e
     :target: https://circleci.com/gh/observermedia/django-wordpress-rest/tree/master
 
+.. image:: https://readthedocs.org/projects/django-wordpress-rest/badge/?version=latest
+    :target: https://readthedocs.org/projects/django-wordpress-rest/?badge=latest
+    :alt: Documentation Status
 
-Welcome to the documentation for django-wordpress-rest!
+
+Welcome to django-wordpress-rest!
 
 
 Summary
 -------
 
 Django-wordpress-rest is a Django application that syncs content from a WordPress.com site to a Django site.
+
 This is done using the `WordPress.com REST API <https://developer.wordpress.com/docs/api/>`_.
 A separate copy of the content data is stored on the Django side, which allows for loose coupling and extensability.
+
+Full documentation is available on `Read The Docs <http://django-wordpress-rest.readthedocs.org/>`_.
 
 
 Authentication
