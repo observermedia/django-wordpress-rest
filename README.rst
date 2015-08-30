@@ -11,8 +11,8 @@ django-wordpress-rest
 .. image:: https://circleci.com/gh/observermedia/django-wordpress-rest/tree/master.svg?style=shield&circle-token=d6ff8ea2fbb65de69536e1bacf6ce27fb95a533e
     :target: https://circleci.com/gh/observermedia/django-wordpress-rest/tree/master
 
-.. image:: https://readthedocs.org/projects/django-wordpress-rest/badge/?version=latest
-    :target: https://readthedocs.org/projects/django-wordpress-rest/?badge=latest
+.. image:: https://readthedocs.org/projects/django-wordpress-rest/badge/?badge=latest
+    :target: http://django-wordpress-rest.readthedocs.org/en/latest/
     :alt: Documentation Status
 
 
