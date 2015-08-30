@@ -152,7 +152,7 @@ The webhook looks for your ``<site_id>`` in Django settings. So add this your ``
     WP_API_SITE_ID = os.getenv("WP_API_SITE_ID")
 
 
-Finally from your WordPress.com site, submit a POST request with an ``ID`` data element in the body to trigger a sync of a single post. Note this should be the WordPress Post ID, not the Djano one!
+Finally from your WordPress.com site, submit a POST request with an ``ID`` data element in the body to trigger a sync of a single post. Note this should be the WordPress Post ID, not the Django one!
 
 ::
 
