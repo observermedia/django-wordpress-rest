@@ -22,3 +22,9 @@ Read The Docs documentation
 -----
 
 Load posts with a specific post status
+
+
+0.1.4
+-----
+
+Fix a bug with processing ManyToMany fields
