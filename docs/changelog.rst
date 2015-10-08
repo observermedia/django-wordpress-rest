@@ -16,3 +16,9 @@ Fixed unexpected kwarg in load_wp_post()
 -----
 
 Read The Docs documentation
+
+
+0.1.3
+-----
+
+Load posts with a specific post status
