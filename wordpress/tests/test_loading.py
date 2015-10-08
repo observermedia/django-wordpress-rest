@@ -183,7 +183,6 @@ class WPAPIProcessPostTest(TestCase):
         self.test_site_id = -1
         self.loader = loading.WPAPILoader(site_id=self.test_site_id)
 
-
     def test_process_post_many_to_many_field(self):
 
         test_existing_post = Post.objects.create(site_id=self.test_site_id,
@@ -203,7 +202,6 @@ class WPAPIProcessPostTest(TestCase):
                                slug="test-tag-2",
                                post_count=1)
         ]
-
 
         test_related_tags = {
             -123: test_tags
