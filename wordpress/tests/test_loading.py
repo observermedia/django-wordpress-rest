@@ -3,13 +3,14 @@ from __future__ import unicode_literals
 import logging
 import json
 import os
+import datetime
 
 from mock import patch, call, DEFAULT, Mock
 from django.test import TestCase
 from requests import Response
 
 from .. import loading
-from ..models import Post
+from ..models import Post, Tag
 
 
 class WPAPIInitTest(TestCase):
@@ -173,3 +174,47 @@ class WPAPILoadPostTest(TestCase):
         self.assertEqual(post.categories.first().name, "News")
         self.assertEqual(post.tags.first().name, "Testing")
         self.assertEqual(post.attachments.first().url, "https://test.local/testpost.jpg")
+
+
+class WPAPIProcessPostTest(TestCase):
+
+    def setUp(self):
+        logging.getLogger('wordpress.loading').addHandler(logging.NullHandler())
+        self.test_site_id = -1
+        self.loader = loading.WPAPILoader(site_id=self.test_site_id)
+
+
+    def test_process_post_many_to_many_field(self):
+
+        test_existing_post = Post.objects.create(site_id=self.test_site_id,
+                                                 wp_id=-123,
+                                                 title="Test Post Y'all",
+                                                 post_date=datetime.date(2015, 10, 1),
+                                                 modified=datetime.date(2015, 10, 1))
+        test_tags = [
+            Tag.objects.create(site_id=self.test_site_id,
+                               wp_id=-201,
+                               name="Test Tag 1",
+                               slug="test-tag-1",
+                               post_count=1),
+            Tag.objects.create(site_id=self.test_site_id,
+                               wp_id=-202,
+                               name="Test Tag 2",
+                               slug="test-tag-2",
+                               post_count=1)
+        ]
+
+
+        test_related_tags = {
+            -123: test_tags
+        }
+
+        # test both tags get attached
+        self.loader.process_post_many_to_many_field(test_existing_post, "tags", test_related_tags)
+        self.assertEqual(list(test_existing_post.tags.all().order_by("id")), test_tags)
+
+        # remove one and make sure it goes away
+        del test_tags[1]
+
+        self.loader.process_post_many_to_many_field(test_existing_post, "tags", test_related_tags)
+        self.assertEqual(list(test_existing_post.tags.all().order_by("id")), test_tags)

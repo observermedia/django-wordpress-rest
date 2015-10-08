@@ -840,8 +840,8 @@ class WPAPILoader(object):
         :param related_objects: the list of objects for the field, that need to be sync'd to the Post
         :return: None
         """
-        to_add = set(related_objects.get(existing_post.id, set())) - set(existing_post.categories.all())
-        to_remove = set(existing_post.categories.all()) - set(related_objects.get(existing_post.id, set()))
+        to_add = set(related_objects.get(existing_post.wp_id, set())) - set(getattr(existing_post, field).all())
+        to_remove = set(getattr(existing_post, field).all()) - set(related_objects.get(existing_post.wp_id, set()))
 
         if to_add:
             getattr(existing_post, field).add(*to_add)
