@@ -56,6 +56,23 @@ To load only a single type of content, such as posts, pages, attachments, or ref
     $ python manage.py load_wp_api <site_id> --type=ref_data
 
 
+Post Status
+------------
+
+To load posts with a specific post status, or any status, use the ``--status`` argument.
+
+This takes a single status, which can be any of: "publish", "private", "draft", "pending", "future", and "trash", or simply "any". Defaults to "publish".
+
+Note that non-public statuses generally require authentication to your WordPress site.
+
+::
+
+    $ python manage.py load_wp_api <site_id> --status=publish
+    $ python manage.py load_wp_api <site_id> --status=private
+    $ python manage.py load_wp_api <site_id> --status=draft
+    $ python manage.py load_wp_api <site_id> --status=any
+
+
 Purge and Reload
 ----------------
 

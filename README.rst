@@ -117,6 +117,13 @@ Just load posts, not pages, attachments, or reference data:
     $ python manage.py load_wp_api <site_id> --type=post
 
 
+Load posts with a specific status (note this requires authentication):
+
+::
+
+    $ python manage.py load_wp_api <site_id> --status=draft
+
+
 Purge local content before loading -- careful!
 
 ::
