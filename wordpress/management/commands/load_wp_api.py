@@ -35,6 +35,12 @@ class Command(BaseCommand):
                     dest='type',
                     default='all',
                     help="The type of posts or information to update."),
+        make_option('--status',
+                    type='choice',
+                    choices=['publish', 'private', 'draft', 'pending', 'future', 'trash', 'any'],
+                    dest='status',
+                    default='publish',
+                    help="Update posts with a specific status, or 'any' status."),
     )
 
     def handle(self, *args, **options):
@@ -51,9 +57,11 @@ class Command(BaseCommand):
             modified_after = parser.parse(modified_after)
 
         type = options.get("type")
+        status = options.get("status")
 
         loader = loading.WPAPILoader(site_id=site_id)
         loader.load_site(purge_first=purge_first,
                          full=full,
                          modified_after=modified_after,
-                         type=type)
+                         type=type,
+                         status=status)
