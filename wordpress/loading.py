@@ -95,7 +95,7 @@ class WPAPILoader(object):
         else:
             logger.warning("Unable to load post with wp_post_id={}:\n{}".format(wp_post_id, response.text))
 
-    def load_site(self, purge_first=False, full=False, modified_after=None, type=None, post_status=None):
+    def load_site(self, purge_first=False, full=False, modified_after=None, type=None, status=None):
         """
         Sync content from a WordPress.com site via the REST API.
 
@@ -110,7 +110,7 @@ class WPAPILoader(object):
             - post: just loads posts with post_type=post, and related ref data
             - page: just loads posts with post_type=page, and related ref data
             - attachment: just loads posts with post_type=attachment, and related ref data
-        :param post_status: the post statuses to load:
+        :param status: the post statuses to load:
             - publish: loads published posts (default)
             - private: loads private posts
             - draft: loads draft posts
@@ -129,8 +129,8 @@ class WPAPILoader(object):
         if type is None:
             type = "all"
 
-        if post_status is None:
-            post_status = "publish"
+        if status is None:
+            status = "publish"
 
         if type in ["all", "ref_data"]:
             self.load_categories()
@@ -145,9 +145,9 @@ class WPAPILoader(object):
         # load posts of each type that we need
         if type == "all":
             for post_type in ["attachment", "post", "page"]:
-                self.load_posts(post_type=post_type, post_status=post_status)
+                self.load_posts(post_type=post_type, status=status)
         elif type in ["attachment", "post", "page"]:
-            self.load_posts(post_type=type, post_status=post_status)
+            self.load_posts(post_type=type, status=status)
 
     def load_categories(self, max_pages=30):
         """
@@ -458,13 +458,13 @@ class WPAPILoader(object):
                 "media": {}
             }
 
-    def load_posts(self, post_type=None, max_pages=200, post_status="publish"):
+    def load_posts(self, post_type=None, max_pages=200, status="publish"):
         """
         Load all WordPress posts of a given post_type from a site.
 
         :param post_type: post, page, attachment, or any custom post type set up in the WP API
         :param max_pages: kill counter to avoid infinite looping
-        :param post_status: load posts with the given types,
+        :param status: load posts with the given status,
             including any of: "publish", "private", "draft", "pending", "future", and "trash", or simply "any"
             Note: non public statuses require authentication
         :return: None
@@ -481,8 +481,8 @@ class WPAPILoader(object):
         # you know, posts that aren't posts... thank you WordPress!
         if not post_type:
             post_type = "post"
-        params = {"number": 100, "type": post_type, "status": post_status}
-        self.set_posts_param_modified_after(params, post_type, post_status)
+        params = {"number": 100, "type": post_type, "status": status}
+        self.set_posts_param_modified_after(params, post_type, status)
 
         # get first page
         response = self.get(path, params)
@@ -493,17 +493,17 @@ class WPAPILoader(object):
         # process all posts in the response
         self.process_posts_response(response, path, params, max_pages)
 
-    def set_posts_param_modified_after(self, params, post_type, post_status):
+    def set_posts_param_modified_after(self, params, post_type, status):
         """
         Set modified_after date to "continue where we left off" if appropriate
 
         :param params: the GET params dict, which may be updated to include the "modified_after" key
         :param post_type: post, page, attachment, or any custom post type set up in the WP API
-        :param post_status: publish, private, draft, etc.
+        :param status: publish, private, draft, etc.
         :return: None
         """
         if not self.purge_first and not self.full and not self.modified_after:
-            latest = Post.objects.filter(post_type=post_type, status=post_status).order_by("-modified").first()
+            latest = Post.objects.filter(post_type=post_type, status=status).order_by("-modified").first()
             if latest:
                 self.modified_after = latest.modified
 
