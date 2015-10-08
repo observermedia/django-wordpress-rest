@@ -98,7 +98,7 @@ class WPAPILoadSiteTest(TestCase):
 
         calls = []
         for post_type in ["attachment", "post", "page"]:
-            calls.append(call(post_type=post_type, post_status="publish"))
+            calls.append(call(post_type=post_type, status="publish"))
 
         load_posts.assert_has_calls(calls)
 
@@ -125,10 +125,10 @@ class WPAPILoadSiteTest(TestCase):
     def test_load_site__attachment(self, get_ref_data_map, load_posts):
         self._test_load_site__one_type_one_status(get_ref_data_map, load_posts, "attachment", "publish")
 
-    def _test_load_site__one_type_one_status(self, get_ref_data_map, load_posts, type, post_status):
+    def _test_load_site__one_type_one_status(self, get_ref_data_map, load_posts, type, status):
 
         # call we're testing
-        self.loader.load_site(type=type, post_status=post_status)
+        self.loader.load_site(type=type, status=status)
 
         # validate loading vars
         self.assertFalse(self.loader.purge_first)
@@ -137,7 +137,7 @@ class WPAPILoadSiteTest(TestCase):
 
         # expected internal calls
         get_ref_data_map.assert_called_once_with()
-        load_posts.assert_called_once_with(post_type=type, post_status=post_status)
+        load_posts.assert_called_once_with(post_type=type, status=status)
 
 
 class WPAPILoadPostTest(TestCase):
