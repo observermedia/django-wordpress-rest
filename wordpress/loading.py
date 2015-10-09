@@ -694,10 +694,14 @@ class WPAPILoader(object):
         :param api_category: the API data for the Category
         :return: the Category object
         """
-        # get from the ref data map if in bulk mode, else look it up from the db
+        category = None
+
+        # try to get from the ref data map if in bulk mode
         if bulk_mode:
             category = self.ref_data_map["categories"].get(api_category["ID"])
-        else:
+
+        # double check the db before giving up, we may have sync'd it in a previous run
+        if not category:
             category, created = Category.objects.get_or_create(site_id=self.site_id,
                                                                wp_id=api_category["ID"],
                                                                defaults=self.api_object_data("category", api_category))
@@ -734,10 +738,14 @@ class WPAPILoader(object):
         :param api_tag: the API data for the Tag
         :return: the Tag object
         """
-        # get from the ref data map if in bulk mode, else look it up from the db
+        tag = None
+
+        # try to get from the ref data map if in bulk mode
         if bulk_mode:
             tag = self.ref_data_map["tags"].get(api_tag["ID"])
-        else:
+
+        # double check the db before giving up, we may have sync'd it in a previous run
+        if not tag:
             tag, created = Tag.objects.get_or_create(site_id=self.site_id,
                                                      wp_id=api_tag["ID"],
                                                      defaults=self.api_object_data("tag", api_tag))
@@ -774,10 +782,14 @@ class WPAPILoader(object):
         :param api_media_attachment: the API data for the Media
         :return: the Media attachment object
         """
-        # get from the ref data map if in bulk mode, else look it up from the db
+        attachment = None
+
+        # try to get from the ref data map if in bulk mode
         if bulk_mode:
             attachment = self.ref_data_map["media"].get(api_media_attachment["ID"])
-        else:
+
+        # double check the db before giving up, we may have sync'd it in a previous run
+        if not attachment:
             # do a direct db lookup if we're not in bulk mode
             attachment, created = created = self.get_or_create_media(api_media_attachment)
             if attachment and not created:
