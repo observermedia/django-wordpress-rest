@@ -4,6 +4,8 @@ import logging
 from optparse import make_option
 
 from django.core.management.base import BaseCommand
+from django.utils.dateparse import parse_datetime
+from django.utils import timezone
 from dateutil import parser
 
 logger = logging.getLogger(__name__)
@@ -41,6 +43,11 @@ class Command(BaseCommand):
                     dest='status',
                     default='publish',
                     help="Update posts with a specific status, or 'any' status."),
+        make_option('--batch_size',
+                    type='int',
+                    dest='batch_size',
+                    default=None,
+                    help='Set the number of posts to load with each call to the WP API.'),
     )
 
     def handle(self, *args, **options):
@@ -54,14 +61,19 @@ class Command(BaseCommand):
         modified_after = options.get("modified_after")
         if modified_after:
             # string to datetime
-            modified_after = parser.parse(modified_after)
+            modified_after = parse_datetime(modified_after) or parser.parse(modified_after)
+            # assign current app's timezone if needed
+            if timezone.is_naive(modified_after):
+                modified_after = timezone.make_aware(modified_after, timezone.get_current_timezone())
 
         type = options.get("type")
         status = options.get("status")
+        batch_size = options.get("batch_size")
 
         loader = loading.WPAPILoader(site_id=site_id)
         loader.load_site(purge_first=purge_first,
                          full=full,
                          modified_after=modified_after,
                          type=type,
-                         status=status)
+                         status=status,
+                         batch_size=batch_size)
