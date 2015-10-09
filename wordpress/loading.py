@@ -95,7 +95,7 @@ class WPAPILoader(object):
         else:
             logger.warning("Unable to load post with wp_post_id={}:\n{}".format(wp_post_id, response.text))
 
-    def load_site(self, purge_first=False, full=False, modified_after=None, type=None, status=None):
+    def load_site(self, purge_first=False, full=False, modified_after=None, type=None, status=None, batch_size=None):
         """
         Sync content from a WordPress.com site via the REST API.
 
@@ -118,13 +118,15 @@ class WPAPILoader(object):
             - future: loads future posts
             - trash: loads posts in the trash
             - any: loads posts with any status
-
+        :param batch_size: The number of posts to request from the WP API for each page
+                           Note this doesn't apply to smaller requests such as tags, categories, etc.
         :return: None
         """
         # capture loading vars
         self.purge_first = purge_first
         self.full = full
         self.modified_after = modified_after
+        self.batch_size = batch_size or 100
 
         if type is None:
             type = "all"
@@ -458,7 +460,7 @@ class WPAPILoader(object):
                 "media": {}
             }
 
-    def load_posts(self, post_type=None, max_pages=200, status="publish"):
+    def load_posts(self, post_type=None, max_pages=200, status=None):
         """
         Load all WordPress posts of a given post_type from a site.
 
@@ -481,7 +483,9 @@ class WPAPILoader(object):
         # you know, posts that aren't posts... thank you WordPress!
         if not post_type:
             post_type = "post"
-        params = {"number": 100, "type": post_type, "status": status}
+        if not status:
+            status = "publish"
+        params = {"number": self.batch_size, "type": post_type, "status": status}
         self.set_posts_param_modified_after(params, post_type, status)
 
         # get first page
@@ -522,6 +526,8 @@ class WPAPILoader(object):
         :return: None
         """
         page = 1
+        num_processed_posts = 0
+        api_posts_found = None
         while response.ok and response.text and page < max_pages:
 
             logger.info(" - page: %d", page)
@@ -533,12 +539,15 @@ class WPAPILoader(object):
 
             api_json = response.json()
             api_posts = api_json.get("posts")
+            if not api_posts_found:
+                api_posts_found = api_json.get("found", max_pages * self.batch_size)
+                logger.info("Found %s posts", api_posts_found)
 
             # we're done if no posts left to process
             if not api_posts:
                 break
 
-            logger.info("post date: %s", api_posts[0]["date"])
+            logger.info("Processing post modified date: %s", api_posts[0]["modified"])
 
             for api_post in api_posts:
                 self.load_wp_post(api_post,
@@ -547,9 +556,15 @@ class WPAPILoader(object):
                                   post_tags=post_tags,
                                   post_media_attachments=post_media_attachments,
                                   posts=posts)
+                num_processed_posts += 1
+                logger.debug("Processed %s of %s posts, modified date: %s", num_processed_posts, api_posts_found, api_post["modified"])
 
             if posts:
                 self.bulk_create_posts(posts, post_categories, post_tags, post_media_attachments)
+
+            # we're done if we've processed all posts
+            if num_processed_posts >= api_posts_found:
+                break
 
             # get next page
             page += 1
