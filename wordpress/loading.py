@@ -791,7 +791,7 @@ class WPAPILoader(object):
         # double check the db before giving up, we may have sync'd it in a previous run
         if not attachment:
             # do a direct db lookup if we're not in bulk mode
-            attachment, created = created = self.get_or_create_media(api_media_attachment)
+            attachment, created = self.get_or_create_media(api_media_attachment)
             if attachment and not created:
                 self.update_existing_media(attachment, api_media_attachment)
 
