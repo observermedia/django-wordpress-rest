@@ -507,7 +507,10 @@ class WPAPILoader(object):
         :return: None
         """
         if not self.purge_first and not self.full and not self.modified_after:
-            latest = Post.objects.filter(post_type=post_type, status=status).order_by("-modified").first()
+            if status == "any":
+                latest = Post.objects.filter(post_type=post_type).order_by("-modified").first()
+            else:
+                latest = Post.objects.filter(post_type=post_type, status=status).order_by("-modified").first()
             if latest:
                 self.modified_after = latest.modified
 
